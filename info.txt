@@ -1,0 +1,173 @@
+\documentclass[10pt,letterpaper]{article} % Font size changed from 11pt to 10pt
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{fontawesome5}
+\usepackage[hidelinks]{hyperref}
+\usepackage{textcomp}
+\usepackage{newunicodechar}
+\usepackage{textcomp}
+\newunicodechar{₹}{\textrupee}
+
+\titleformat{\section}
+  {\normalsize\bfseries\raggedright}{}{0em}{\MakeUppercase}[\titlerule]
+\titlespacing*{\section}{0pt}{*1.5}{*0.5}
+
+\pagenumbering{gobble}
+
+\newcommand{\name}[1]{
+  \begin{center}
+    \LARGE\textbf{#1}
+  \end{center}
+  \vspace{-0.5em}
+  \hrule height 0.4pt width \textwidth
+  \vspace{0.5em}
+}
+\newcommand{\contact}[3]{
+  \begin{center}
+    #1 \\
+    #2 \\
+    #3
+  \end{center}
+  \vspace{-0.5em}
+  \hrule height 0.4pt width \textwidth
+  \vspace{0.5em}
+}
+
+
+\newcommand{\role}[5]{
+  \begin{center}
+  \normalsize\textbf{#1} \hfill \textbf{#2} \\
+  \text{#3} \hfill \text{#4} \\
+  \textbf{#5}  \hfill
+}
+
+% Project Command
+\newcommand{\project}[3]{
+\begin{itemize}[leftmargin=*,nosep]
+  \item \textbf{#1} \hfill \vspace{1.2em}% Project title on the left
+  \href{#3}{\faGithub} \\ % GitHub logo linked to the repository
+  \hspace{1em} \parbox{\textwidth}{
+  \vspace{-0.8em} \textit{#2} \vspace{1em}
+} % Short description of the project
+\end{itemize}
+
+  \vspace{0.5em}
+}
+
+\begin{document}
+\vspace*{-3.5em}
+\name{Mohammed Daiyaan}
+\vspace{-0.5em}
+\contact{
+Chennai, India \, | \,
++91 7867922818 \, | \,
+\href{mailto:mohammeddaiyaan2005@gmail.com}{mohammeddaiyaan2005@gmail.com} \\
+\href{https://www.linkedin.com/in/mohammed-daiyaan-6791a7276/}{LinkedIn} \,  | \,
+\href{https://github.com/unKnownNG}{GitHub}
+}
+
+
+
+\vspace{-0.5em}
+\begin{center}
+\textit{Systems-oriented engineering student experienced in operating systems, programming language development, and embedded systems. Proficient in C++, Rust, and building low-level software including kernels and compilers. Open-source contributor with strong foundations in computer systems and software engineering.}
+\end{center}
+
+
+
+% \vspace{0.5em}
+\section{EDUCATION}
+
+\vspace{0.5em}
+\role{Bachelor of Engineering - Electronics and Communication Engineering}{2023-2027}{Sri Sai Ram Institute of Technology, Chennai}{CGPA: 8.16*}{ }
+\vspace{-1.6em}
+% \role{Senior Secondary Certificate of Education (Class 12)}{2021-2023}{The Hindu Senior Secondary School, Chennai}{Percentage: 85.8\%}{Board: CBSE}
+
+\section{EXPERIENCE}
+
+\vspace{0.3em}
+\role{Software Engineering Intern}{May 2025 – Dec 2025}{\textbf{CVRDE, DRDO}}{Chennai}{}
+\vspace{-1em}
+\begin{itemize}[leftmargin=*,nosep, itemsep=0.2em]
+  \item Designed and developed a custom MATLAB-based GUI application for scientific data visualization and analysis used by DRDO researchers.
+  \item Replicated and optimized key functionality of a proprietary software tool, creating a cost-effective internal alternative.
+  \item Improved workflow efficiency for data analysis through interactive visualization and simplified user interaction.
+\end{itemize}
+
+\vspace{-0.4em}
+\role{Control Systems Engineer}{Oct 2024 – Sep 2025}{\textbf{Ad Astra Rover Team}}{Chennai}{}
+\vspace{-1em}
+\begin{itemize}[leftmargin=*,nosep, itemsep=0.2em]
+  \item Developed embedded control software for rover subsystems using STM32 and Arduino microcontrollers.
+  \item Integrated hardware sensors and actuators with ROS2-based control pipelines for autonomous rover operations.
+  \item Collaborated in a multidisciplinary robotics team to design and test embedded and control system components.
+\end{itemize}
+
+\section{OPEN SOURCE-CONTRIBUTIONS}
+
+\vspace{0.5em}
+\role{Contributor}{2025}{\textbf{Optuna – \href{https://github.com/optuna/optuna/releases/tag/v4.5.0}{v4.5.0}, \href{https://github.com/optuna/optuna/releases/tag/v4.6.0}{v4.6.0}}}{Remote}{}
+\vspace{-1.2em}
+\begin{itemize}[leftmargin=*,nosep]
+  \item Refactored backend modules to standardize return types; contribution included in official release notes.
+\end{itemize}
+
+\vspace{-0.2em}
+\role{Contributor}{2025}{\textbf{Layer5 (Cloud Native Computing Foundation)}}{Remote}{}
+\vspace{-1.2em}
+\begin{itemize}[leftmargin=*,nosep]
+  \item Contributed code and documentation improvements to cloud-native open-source projects in a global contributor environment.
+\end{itemize}
+
+
+\section{PROJECTS}
+
+\project{Custom Operating System from Scratch}
+{\textbf{Tech stack:} C, x86 Assembly, GCC, QEMU
+\\Designed and implemented a minimal operating system from scratch including a custom bootloader in Assembly and a \\C-based kernel. Implemented VGA text-mode drivers, memory handling, and a basic command-line interface running \\on an emulated x86 machine. Focused on low-level systems concepts including boot process, hardware interaction, and \\kernel development.}
+{https://github.com/unKnownNG/Custom-OS}
+
+\vspace{-1.2em}
+
+\project{Custom Programming Language (Compiler Project)}
+{\textbf{Tech stack:} C++, LLVM 
+\\Designed and implemented a custom programming language including lexical analysis, parsing, and an execution engine.
+\\Built core compiler components such as tokenization, AST generation, and runtime evaluation while exploring language \\design concepts like syntax rules and memory management.}
+{https://github.com/unKnownNG/Custom-Programming-Language/}
+\vspace{-1.2em}  
+
+\project{CodeNovel – AI-Powered Platform for Learning Through Code}
+{\textbf{Tech stack:} TypeScript, Next.js, Supabase, PostgreSQL, AI APIs
+\\Built a web platform for reading and understanding AI-generated code, helping developers explore and analyze real code\\ examples.Designed a backend data model using Supabase/PostgreSQL with AI-assisted schema generation and content \\management.Integrated AI-based summarization to generate concise explanations for complex code snippets. Implemented \\authentication, real-time data retrieval, and scalable API interaction using Supabase services.}
+{https://github.com/unKnownNG/Code-Novel}
+
+\vspace{-1.2em}
+
+
+\section{TECHNICAL~SKILLS}
+
+\vspace{0.5em}  
+\begin{itemize}[leftmargin=*,nosep]  
+  \item \textbf{Languages:} Python, C++, JavaScript, TypeScript, MATLAB  
+\item \textbf{Frameworks:} React, Next.js, Node.js, Tailwind CSS  
+\item \textbf{Databases:} MySQL, MongoDB  
+\item \textbf{Tools \& Platforms:} Git, Linux, ROS2, STM32, Docker 
+\end{itemize}
+
+
+\section{ACHIEVEMENTS}
+
+\vspace{0.5em}
+\begin{itemize}[leftmargin=*,nosep]
+  \item Ranked in the \textbf{top 5\%} with a global rank of \textbf{3300} in Codeforces Div. 2.
+  \item Participated in the University Rover Challenge 2025 and the International Rover Challenge 2025.
+\end{itemize}
+
+
+\end{document}

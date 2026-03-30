@@ -1,4 +1,49 @@
 import { registerCommand, getAllCommands } from "./commandRegistry";
+import { THEMES, getTheme, setTheme } from "../themeStore";
+
+// ═══════════════════════════════════════════════════
+//  DATA
+// ═══════════════════════════════════════════════════
+
+const PROJECTS = [
+  {
+    name: "Custom Operating System from Scratch",
+    desc: "Designed and implemented a minimal OS from scratch including a custom bootloader in Assembly and a C-based kernel. Implemented VGA text-mode drivers, memory handling, and a basic CLI running on an emulated x86 machine.",
+    tech: "C, x86 Assembly, GCC, QEMU",
+    link: "github.com/unKnownNG/Custom-OS",
+  },
+  {
+    name: "Custom Programming Language (Compiler)",
+    desc: "Designed and implemented a custom programming language with lexical analysis, parsing, and an execution engine. Built core compiler components — tokenization, AST generation, and runtime evaluation.",
+    tech: "C++, LLVM",
+    link: "github.com/unKnownNG/Custom-Programming-Language",
+  },
+  {
+    name: "CodeNovel — AI-Powered Code Learning Platform",
+    desc: "Built a web platform for reading and understanding AI-generated code. Designed a backend data model using Supabase/PostgreSQL with AI-assisted schema generation. Integrated AI summarization for complex code snippets.",
+    tech: "TypeScript, Next.js, Supabase, PostgreSQL, AI APIs",
+    link: "github.com/unKnownNG/Code-Novel",
+  },
+  {
+    name: "Bevy Snake Game",
+    desc: "A classic snake game built using the Bevy game engine in Rust, featuring smooth rendering, input handling, and ECS-based architecture.",
+    tech: "Rust, Bevy",
+    link: "github.com/unKnownNG/bevy-snake-game",
+  },
+  {
+    name: "Psypathai — AI Psychology Career Guide",
+    desc: "A web platform featuring an AI chatbot specializing in psychology to guide students in career decisions. Includes curated, popular roadmaps customized for students across various career paths.",
+    tech: "Next.js, AI APIs",
+    link: "github.com/unKnownNG/Psypathai",
+  },
+];
+
+const SOCIALS: Record<string, { url: string; label: string }> = {
+  linkedin: { url: "https://linkedin.com/in/mohammed-daiyaan-6791a7276", label: "LinkedIn" },
+  github: { url: "https://github.com/unKnownNG", label: "GitHub" },
+  mail: { url: "mailto:mohammeddaiyaan2005@gmail.com", label: "Email" },
+  email: { url: "mailto:mohammeddaiyaan2005@gmail.com", label: "Email" },
+};
 
 // ─── help ─────────────────────────────────────────────
 registerCommand({
@@ -85,8 +130,8 @@ registerCommand({
         </p>
         <div className="ml-2 space-y-1">
           {[
-            { category: "Languages", items: "Python, C++, JavaScript, TypeScript, MATLAB" },
-            { category: "Frameworks", items: "React, Next.js, Node.js, Tailwind CSS" },
+            { category: "Languages", items: "Python, C++, Rust, JavaScript, TypeScript, MATLAB" },
+            { category: "Frameworks", items: "React, Next.js, Node.js, Tailwind CSS, Bevy" },
             { category: "Databases", items: "MySQL, MongoDB" },
             { category: "Tools", items: "Git, Linux, ROS2, STM32, Docker" },
             { category: "Low-Level", items: "x86 Assembly, GCC, QEMU, LLVM, Bootloaders" },
@@ -110,45 +155,62 @@ registerCommand({
 registerCommand({
   name: "projects",
   description: "Notable projects & contributions",
-  execute: () => ({
-    content: (
-      <div className="space-y-3">
-        <p className="text-yellow font-bold">📂 Projects</p>
-        {[
-          {
-            name: "Custom Operating System from Scratch",
-            desc: "Designed and implemented a minimal OS from scratch including a custom bootloader in Assembly and a C-based kernel. Implemented VGA text-mode drivers, memory handling, and a basic CLI running on an emulated x86 machine.",
-            tech: "C, x86 Assembly, GCC, QEMU",
-            link: "github.com/unKnownNG/Custom-OS",
-          },
-          {
-            name: "Custom Programming Language (Compiler)",
-            desc: "Designed and implemented a custom programming language with lexical analysis, parsing, and an execution engine. Built core compiler components — tokenization, AST generation, and runtime evaluation.",
-            tech: "C++, LLVM",
-            link: "github.com/unKnownNG/Custom-Programming-Language",
-          },
-          {
-            name: "CodeNovel — AI-Powered Code Learning Platform",
-            desc: "Built a web platform for reading and understanding AI-generated code. Designed a backend data model using Supabase/PostgreSQL with AI-assisted schema generation. Integrated AI summarization for complex code snippets.",
-            tech: "TypeScript, Next.js, Supabase, PostgreSQL, AI APIs",
-            link: "github.com/unKnownNG/Code-Novel",
-          },
-        ].map((project) => (
-          <div key={project.name} className="ml-2">
-            <p className="text-primary-bright font-semibold">
-              ▸ {project.name}
+  usage: "projects | projects goto <number>",
+  execute: (args) => {
+    // Handle "projects goto <number>"
+    if (args.length >= 2 && args[0].toLowerCase() === "goto") {
+      const num = parseInt(args[1], 10);
+      if (isNaN(num) || num < 1 || num > PROJECTS.length) {
+        return {
+          content: (
+            <span className="text-red">
+              Invalid project number. Use 1–{PROJECTS.length}.
+            </span>
+          ),
+        };
+      }
+      const project = PROJECTS[num - 1];
+      const url = `https://${project.link}`;
+      if (typeof window !== "undefined") {
+        window.open(url, "_blank", "noopener,noreferrer");
+      }
+      return {
+        content: (
+          <div className="space-y-1">
+            <p className="text-green">
+              🚀 Opening <span className="text-primary-bright font-semibold">{project.name}</span> in a new tab...
             </p>
-            <p className="text-foreground ml-4 text-sm">{project.desc}</p>
-            <p className="text-comment ml-4 text-sm">
-              Tech: <span className="text-orange">{project.tech}</span>
-              &nbsp;&nbsp;│&nbsp;&nbsp;
-              <span className="text-cyan">{project.link}</span>
-            </p>
+            <p className="text-comment text-sm">→ {url}</p>
           </div>
-        ))}
-      </div>
-    ),
-  }),
+        ),
+      };
+    }
+
+    // List projects
+    return {
+      content: (
+        <div className="space-y-3">
+          <p className="text-yellow font-bold">📂 Projects</p>
+          {PROJECTS.map((project, index) => (
+            <div key={project.name} className="ml-2">
+              <p className="text-primary-bright font-semibold">
+                <span className="text-accent">[{index + 1}]</span> ▸ {project.name}
+              </p>
+              <p className="text-foreground ml-4 text-sm">{project.desc}</p>
+              <p className="text-comment ml-4 text-sm">
+                Tech: <span className="text-orange">{project.tech}</span>
+                &nbsp;&nbsp;│&nbsp;&nbsp;
+                <span className="text-cyan">{project.link}</span>
+              </p>
+            </div>
+          ))}
+          <p className="text-comment text-sm mt-2 ml-2">
+            ── Type <span className="text-cyan">&apos;projects goto &lt;number&gt;&apos;</span> to open in GitHub ──
+          </p>
+        </div>
+      ),
+    };
+  },
 });
 
 // ─── experience ───────────────────────────────────────
@@ -200,18 +262,31 @@ registerCommand({
             ))}
           </div>
         ))}
+      </div>
+    ),
+  }),
+});
 
-        <p className="text-accent text-glow-accent font-bold mt-3">
+// ─── opensource ───────────────────────────────────────
+registerCommand({
+  name: "opensource",
+  description: "Open source contributions",
+  execute: () => ({
+    content: (
+      <div className="space-y-3">
+        <p className="text-accent text-glow-accent font-bold">
           🌐 Open Source Contributions
         </p>
         {[
           {
             project: "Optuna (v4.5.0, v4.6.0)",
             desc: "Refactored backend modules to standardize return types; contribution included in official release notes.",
+            link: "github.com/optuna/optuna",
           },
           {
             project: "Layer5 (Cloud Native Computing Foundation)",
             desc: "Contributed code and documentation improvements to cloud-native open-source projects in a global contributor environment.",
+            link: "github.com/layer5io",
           },
         ].map((oss) => (
           <div key={oss.project} className="ml-2">
@@ -219,6 +294,9 @@ registerCommand({
               <span className="text-primary-bright font-semibold">▸ {oss.project}</span>
             </p>
             <p className="text-foreground ml-4 text-sm">• {oss.desc}</p>
+            <p className="text-comment ml-4 text-sm">
+              <span className="text-cyan">{oss.link}</span>
+            </p>
           </div>
         ))}
       </div>
@@ -299,11 +377,135 @@ registerCommand({
           ))}
         </div>
         <p className="text-comment text-sm mt-2 ml-2">
-          ── Feel free to reach out! I&apos;m always open to collaboration ──
+          ── Type <span className="text-cyan">&apos;goto linkedin&apos;</span>, <span className="text-cyan">&apos;goto github&apos;</span>, or <span className="text-cyan">&apos;goto mail&apos;</span> to visit ──
         </p>
       </div>
     ),
   }),
+});
+
+// ─── goto (socials) ───────────────────────────────────
+registerCommand({
+  name: "goto",
+  description: "Open social profiles (goto linkedin|github|mail)",
+  usage: "goto <platform>",
+  execute: (args) => {
+    if (args.length === 0) {
+      return {
+        content: (
+          <div className="space-y-1">
+            <p className="text-yellow font-semibold">Usage:</p>
+            <p className="text-foreground ml-2 text-sm">
+              <span className="text-cyan">goto &lt;platform&gt;</span> — open a social profile
+            </p>
+            <p className="text-comment ml-2 text-sm">
+              Available: {Object.keys(SOCIALS).join(", ")}
+            </p>
+          </div>
+        ),
+      };
+    }
+
+    const target = args[0].toLowerCase();
+    const social = SOCIALS[target];
+
+    if (!social) {
+      return {
+        content: (
+          <div className="space-y-1">
+            <p className="text-red">
+              Unknown platform: &apos;{args[0]}&apos;
+            </p>
+            <p className="text-comment text-sm">
+              Available: {Object.keys(SOCIALS).join(", ")}
+            </p>
+          </div>
+        ),
+      };
+    }
+
+    if (typeof window !== "undefined") {
+      window.open(social.url, "_blank", "noopener,noreferrer");
+    }
+
+    return {
+      content: (
+        <div className="space-y-1">
+          <p className="text-green">
+            🔗 Opening <span className="text-primary-bright font-semibold">{social.label}</span> in a new tab...
+          </p>
+          <p className="text-comment text-sm">→ {social.url}</p>
+        </div>
+      ),
+    };
+  },
+});
+
+// ─── theme ────────────────────────────────────────────
+registerCommand({
+  name: "theme",
+  description: "Change terminal theme",
+  usage: "theme [name]",
+  execute: (args) => {
+    if (args.length === 0) {
+      const current = getTheme();
+      return {
+        content: (
+          <div className="space-y-2">
+            <p className="text-accent text-glow-accent font-bold">
+              🎨 Available Themes
+            </p>
+            <div className="ml-2 space-y-1">
+              {THEMES.map((t) => (
+                <div key={t.name} className="flex gap-3">
+                  <span className={`min-w-[14px] ${t.name === current ? "text-green" : "text-comment"}`}>
+                    {t.name === current ? "▸" : " "}
+                  </span>
+                  <span className={`min-w-[110px] font-semibold ${t.name === current ? "text-primary-bright" : "text-cyan"}`}>
+                    {t.label}
+                  </span>
+                  <span className="text-comment">{t.description}</span>
+                </div>
+              ))}
+            </div>
+            <p className="text-comment text-sm mt-2 ml-2">
+              ── Type <span className="text-cyan">&apos;theme &lt;name&gt;&apos;</span> to switch (e.g. <span className="text-cyan">theme cyberpunk</span>) ──
+            </p>
+          </div>
+        ),
+      };
+    }
+
+    const name = args[0].toLowerCase();
+    const success = setTheme(name);
+
+    if (!success) {
+      return {
+        content: (
+          <div className="space-y-1">
+            <p className="text-red">
+              Unknown theme: &apos;{args[0]}&apos;
+            </p>
+            <p className="text-comment text-sm">
+              Available: {THEMES.map((t) => t.name).join(", ")}
+            </p>
+          </div>
+        ),
+      };
+    }
+
+    const theme = THEMES.find((t) => t.name === name)!;
+    return {
+      content: (
+        <div className="space-y-1">
+          <p className="text-green text-glow-green">
+            ✓ Theme switched to <span className="text-primary-bright font-bold">{theme.label}</span>
+          </p>
+          <p className="text-comment text-sm">{theme.description}</p>
+        </div>
+      ),
+    };
+  },
 });
 
 // ─── neofetch ─────────────────────────────────────────
@@ -361,7 +563,7 @@ registerCommand({
           </p>
           <p>
             <span className="text-cyan">Languages</span>
-            <span className="text-foreground">: C++, Python, TS, MATLAB</span>
+            <span className="text-foreground">: C++, Rust, Python, TS, MATLAB</span>
           </p>
           <div className="flex gap-1 mt-2">
             {["bg-red", "bg-orange", "bg-yellow", "bg-green", "bg-cyan", "bg-primary", "bg-accent"].map((color) => (
@@ -385,6 +587,7 @@ registerCommand({
       { name: "skills.sh", color: "text-green" },
       { name: "projects/", color: "text-primary-bright" },
       { name: "experience.log", color: "text-foreground" },
+      { name: "opensource.log", color: "text-foreground" },
       { name: "education.txt", color: "text-foreground" },
       { name: "contact.json", color: "text-yellow" },
       { name: "achievements.md", color: "text-orange" },
@@ -396,6 +599,7 @@ registerCommand({
       { name: ".config/", color: "text-primary-bright" },
       { name: ".ssh/", color: "text-primary-bright" },
       { name: ".gitconfig", color: "text-foreground" },
+      { name: ".themes/", color: "text-primary-bright" },
     ];
 
     const allFiles = showAll ? [...hiddenFiles, ...files] : files;

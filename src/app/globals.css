@@ -1,7 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
-:root {
+/* ═══════════════════════════════════════════════════
+   THEME DEFINITIONS
+   ═══════════════════════════════════════════════════ */
+
+/* Dracula (Default) */
+:root,
+[data-theme="dracula"] {
   --background: #0a0a0f;
   --foreground: #e2e0f0;
   --primary: #bd93f9;
@@ -18,6 +24,86 @@
   --surface-light: #1a1a2e;
   --border: #2a2a4a;
 }
+
+/* Cyberpunk */
+[data-theme="cyberpunk"] {
+  --background: #0a0010;
+  --foreground: #e0f0ff;
+  --primary: #ff2a6d;
+  --primary-bright: #ff6090;
+  --accent: #05d9e8;
+  --accent-secondary: #d1f7ff;
+  --green: #01f980;
+  --yellow: #f9f002;
+  --orange: #ff6c11;
+  --red: #ff0040;
+  --cyan: #05d9e8;
+  --comment: #6b5b7b;
+  --surface: #120020;
+  --surface-light: #1a0030;
+  --border: #3a1050;
+}
+
+/* Nord */
+[data-theme="nord"] {
+  --background: #1e2030;
+  --foreground: #d8dee9;
+  --primary: #81a1c1;
+  --primary-bright: #88c0d0;
+  --accent: #b48ead;
+  --accent-secondary: #8fbcbb;
+  --green: #a3be8c;
+  --yellow: #ebcb8b;
+  --orange: #d08770;
+  --red: #bf616a;
+  --cyan: #8fbcbb;
+  --comment: #616e88;
+  --surface: #252a3a;
+  --surface-light: #2e3440;
+  --border: #3b4252;
+}
+
+/* Monokai */
+[data-theme="monokai"] {
+  --background: #1a1a1a;
+  --foreground: #f8f8f2;
+  --primary: #ae81ff;
+  --primary-bright: #c4a7ff;
+  --accent: #f92672;
+  --accent-secondary: #66d9ef;
+  --green: #a6e22e;
+  --yellow: #e6db74;
+  --orange: #fd971f;
+  --red: #f92672;
+  --cyan: #66d9ef;
+  --comment: #75715e;
+  --surface: #222222;
+  --surface-light: #2d2d2d;
+  --border: #3e3d32;
+}
+
+/* Solarized Dark */
+[data-theme="solarized"] {
+  --background: #002b36;
+  --foreground: #839496;
+  --primary: #268bd2;
+  --primary-bright: #2aa198;
+  --accent: #d33682;
+  --accent-secondary: #6c71c4;
+  --green: #859900;
+  --yellow: #b58900;
+  --orange: #cb4b16;
+  --red: #dc322f;
+  --cyan: #2aa198;
+  --comment: #586e75;
+  --surface: #073642;
+  --surface-light: #0a3f4e;
+  --border: #2a5a68;
+}
+
+/* ═══════════════════════════════════════════════════
+   TAILWIND THEME BRIDGE
+   ═══════════════════════════════════════════════════ */
 
 @theme inline {
   --color-background: var(--background);
@@ -36,6 +122,10 @@
   --color-surface-light: var(--surface-light);
   --color-border: var(--border);
 }
+
+/* ═══════════════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════════════ */
 
 * {
   box-sizing: border-box;
@@ -86,25 +176,25 @@ body {
   mix-blend-mode: multiply;
 }
 
-/* Text Glow Effect */
+/* Text Glow Effects */
 .text-glow {
-  text-shadow: 0 0 8px rgba(189, 147, 249, 0.6),
-               0 0 20px rgba(189, 147, 249, 0.3);
+  text-shadow: 0 0 8px color-mix(in srgb, var(--primary) 60%, transparent),
+               0 0 20px color-mix(in srgb, var(--primary) 30%, transparent);
 }
 
 .text-glow-green {
-  text-shadow: 0 0 8px rgba(80, 250, 123, 0.6),
-               0 0 20px rgba(80, 250, 123, 0.3);
+  text-shadow: 0 0 8px color-mix(in srgb, var(--green) 60%, transparent),
+               0 0 20px color-mix(in srgb, var(--green) 30%, transparent);
 }
 
 .text-glow-cyan {
-  text-shadow: 0 0 8px rgba(139, 233, 253, 0.6),
-               0 0 20px rgba(139, 233, 253, 0.3);
+  text-shadow: 0 0 8px color-mix(in srgb, var(--cyan) 60%, transparent),
+               0 0 20px color-mix(in srgb, var(--cyan) 30%, transparent);
 }
 
 .text-glow-accent {
-  text-shadow: 0 0 8px rgba(255, 121, 198, 0.6),
-               0 0 20px rgba(255, 121, 198, 0.3);
+  text-shadow: 0 0 8px color-mix(in srgb, var(--accent) 60%, transparent),
+               0 0 20px color-mix(in srgb, var(--accent) 30%, transparent);
 }
 
 /* Blinking cursor */
@@ -119,9 +209,9 @@ body {
 
 /* Boot progress bar animation */
 @keyframes progress-glow {
-  0% { box-shadow: 0 0 5px rgba(189, 147, 249, 0.5); }
-  50% { box-shadow: 0 0 20px rgba(189, 147, 249, 0.8), 0 0 40px rgba(189, 147, 249, 0.3); }
-  100% { box-shadow: 0 0 5px rgba(189, 147, 249, 0.5); }
+  0% { box-shadow: 0 0 5px color-mix(in srgb, var(--primary) 50%, transparent); }
+  50% { box-shadow: 0 0 20px color-mix(in srgb, var(--primary) 80%, transparent), 0 0 40px color-mix(in srgb, var(--primary) 30%, transparent); }
+  100% { box-shadow: 0 0 5px color-mix(in srgb, var(--primary) 50%, transparent); }
 }
 
 .progress-glow {
@@ -130,13 +220,18 @@ body {
 
 /* Subtle background gradient */
 .bg-gradient-radial {
-  background: radial-gradient(ellipse at 50% 0%, rgba(189, 147, 249, 0.08) 0%, transparent 60%),
-              radial-gradient(ellipse at 80% 50%, rgba(255, 121, 198, 0.04) 0%, transparent 50%),
+  background: radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--primary) 8%, transparent) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 50%, color-mix(in srgb, var(--accent) 4%, transparent) 0%, transparent 50%),
               var(--background);
 }
 
 /* Selection */
 ::selection {
-  background: rgba(189, 147, 249, 0.3);
+  background: color-mix(in srgb, var(--primary) 30%, transparent);
   color: #fff;
+}
+
+/* Theme transition */
+*, *::before, *::after {
+  transition: background-color 0.3s ease, color 0.2s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }

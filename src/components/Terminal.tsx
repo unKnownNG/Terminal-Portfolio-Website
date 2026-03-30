@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, KeyboardEvent, ReactNode } from "react";
 import { motion } from "framer-motion";
 import { executeCommand } from "@/lib/commands/commandRegistry";
+import { initTheme } from "@/lib/themeStore";
 import "@/lib/commands/commands";
 
 interface HistoryEntry {
@@ -50,6 +51,7 @@ export default function Terminal() {
   };
 
   useEffect(() => {
+    initTheme();
     focusInput();
   }, []);
 
@@ -132,7 +134,7 @@ export default function Terminal() {
           "help", "about", "skills", "projects", "experience",
           "education", "achievements", "contact", "neofetch", "ls", "clear",
           "history", "uname", "whoami", "cat", "pwd", "date",
-          "sudo", "echo",
+          "sudo", "echo", "theme", "goto", "opensource",
         ];
         const matches = allCommands.filter((c) => c.startsWith(currentInput.toLowerCase()));
         if (matches.length === 1) {

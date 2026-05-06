@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, KeyboardEvent, ReactNode } from "react";
 import { motion } from "framer-motion";
-import { executeCommand } from "@/lib/commands/commandRegistry";
+import { executeCommand, getAllCommandNames } from "@/lib/commands/commandRegistry";
 import { initTheme } from "@/lib/themeStore";
 import "@/lib/commands/commands";
 
@@ -128,19 +128,54 @@ export default function Terminal() {
       setHistory([]);
     } else if (e.key === "Tab") {
       e.preventDefault();
-      // Simple tab completion
-      if (currentInput) {
-        const allCommands = [
-          "help", "about", "skills", "projects", "experience",
-          "education", "achievements", "contact", "neofetch", "ls", "clear",
-          "history", "uname", "whoami", "cat", "pwd", "date",
-          "sudo", "echo", "theme", "goto", "opensource",
-        ];
+      if (!currentInput) return;
+
+      const parts = currentInput.split(/\s+/);
+      const isArgCompletion = parts.length >= 2 || currentInput.endsWith(" ");
+
+      if (isArgCompletion) {
+        // ── Argument-level completion ──────────────────────────
+        const cmd = parts[0].toLowerCase();
+        const argPrefix = (parts[1] ?? "").toLowerCase();
+
+        // Known argument sets per command
+        const ARG_MAP: Record<string, string[]> = {
+          goto: ["linkedin", "github", "mail", "email"],
+          theme: ["dracula", "cyberpunk", "nord", "monokai", "solarized"],
+          cat: ["about.md", "resume.pdf", "skills.sh", "contact.json", "experience.log", "education.txt", "achievements.md"],
+          projects: ["goto"],
+        };
+
+        const argOptions = ARG_MAP[cmd];
+        if (!argOptions) return;
+
+        const matches = argOptions.filter((a) => a.startsWith(argPrefix));
+        if (matches.length === 1) {
+          setCurrentInput(`${cmd} ${matches[0]}`);
+        } else if (matches.length > 1) {
+          setHistory((prev) => [
+            ...prev,
+            {
+              id: nextId,
+              command: currentInput,
+              output: (
+                <div className="flex flex-wrap gap-x-4">
+                  {matches.map((m) => (
+                    <span key={m} className="text-cyan">{m}</span>
+                  ))}
+                </div>
+              ),
+            },
+          ]);
+          setNextId((n) => n + 1);
+        }
+      } else {
+        // ── Command-name completion ────────────────────────────
+        const allCommands = getAllCommandNames();
         const matches = allCommands.filter((c) => c.startsWith(currentInput.toLowerCase()));
         if (matches.length === 1) {
           setCurrentInput(matches[0]);
         } else if (matches.length > 1) {
-          // Show completions
           setHistory((prev) => [
             ...prev,
             {
@@ -163,9 +198,9 @@ export default function Terminal() {
 
   const Prompt = () => (
     <span className="whitespace-nowrap">
-      <span className="text-green text-glow-green font-bold">daiyaan</span>
+      <span className="text-green text-glow-green font-bold">visitor</span>
       <span className="text-foreground">@</span>
-      <span className="text-primary-bright text-glow font-bold">portfolio</span>
+      <span className="text-primary-bright text-glow font-bold">daiyaan.portfolio</span>
       <span className="text-foreground">:</span>
       <span className="text-cyan text-glow-cyan font-bold">~</span>
       <span className="text-foreground">$ </span>
@@ -189,7 +224,7 @@ export default function Terminal() {
           </div>
           <div className="flex-1 flex items-center justify-center">
             <span className="text-comment text-xs md:text-sm">
-              daiyaan@portfolio: ~
+              visitor@daiyaan.portfolio: ~
             </span>
           </div>
           <div className="w-16" />

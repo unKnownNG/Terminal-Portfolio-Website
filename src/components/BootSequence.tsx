@@ -46,7 +46,7 @@ const BOOT_LINES: BootLine[] = [
   // Login
   { text: "Arch Linux 6.8.0-custom (tty1)", type: "login", delay: 300 },
   { text: "", type: "info", delay: 100 },
-  { text: "portfolio login: daiyaan", type: "login", delay: 500 },
+  { text: "daiyaan.portfolio login: visitor", type: "login", delay: 500 },
   { text: "Password: ••••••••", type: "login", delay: 400 },
   { text: "", type: "info", delay: 100 },
   { text: "Welcome to Portfolio Shell — Type 'help' to get started.", type: "ok", delay: 600 },

@@ -200,12 +200,21 @@ registerCommand({
               <p className="text-comment ml-4 text-sm">
                 Tech: <span className="text-orange">{project.tech}</span>
                 &nbsp;&nbsp;│&nbsp;&nbsp;
-                <span className="text-cyan">{project.link}</span>
+                <a
+                  href={`https://${project.link}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-cyan hover:underline cursor-pointer"
+                  title="Ctrl+Click to open in new tab"
+                  onClick={(e) => { if (!e.ctrlKey && !e.metaKey) e.preventDefault(); }}
+                >
+                  {project.link}
+                </a>
               </p>
             </div>
           ))}
           <p className="text-comment text-sm mt-2 ml-2">
-            ── Type <span className="text-cyan">&apos;projects goto &lt;number&gt;&apos;</span> to open in GitHub ──
+            ── Ctrl+Click links to open │ Type <span className="text-cyan">&apos;projects goto &lt;number&gt;&apos;</span> to open in GitHub ──
           </p>
         </div>
       ),
@@ -295,7 +304,16 @@ registerCommand({
             </p>
             <p className="text-foreground ml-4 text-sm">• {oss.desc}</p>
             <p className="text-comment ml-4 text-sm">
-              <span className="text-cyan">{oss.link}</span>
+              <a
+                href={`https://${oss.link}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-cyan hover:underline cursor-pointer"
+                title="Ctrl+Click to open in new tab"
+                onClick={(e) => { if (!e.ctrlKey && !e.metaKey) e.preventDefault(); }}
+              >
+                {oss.link}
+              </a>
             </p>
           </div>
         ))}
@@ -363,21 +381,34 @@ registerCommand({
         </p>
         <div className="ml-2 space-y-1">
           {[
-            { label: "Email", value: "mohammeddaiyaan2005@gmail.com", icon: "📧" },
-            { label: "GitHub", value: "github.com/unKnownNG", icon: "🐙" },
-            { label: "LinkedIn", value: "linkedin.com/in/mohammed-daiyaan-6791a7276", icon: "🔗" },
-            { label: "Location", value: "Chennai, India", icon: "📍" },
-            { label: "Phone", value: "+91 7867922818", icon: "📱" },
+            { label: "Email", value: "mohammeddaiyaan2005@gmail.com", url: "mailto:mohammeddaiyaan2005@gmail.com", icon: "📧" },
+            { label: "GitHub", value: "github.com/unKnownNG", url: "https://github.com/unKnownNG", icon: "🐙" },
+            { label: "LinkedIn", value: "linkedin.com/in/mohammed-daiyaan-6791a7276", url: "https://linkedin.com/in/mohammed-daiyaan-6791a7276", icon: "🔗" },
+            { label: "Location", value: "Chennai, India", url: "", icon: "📍" },
+            { label: "Phone", value: "+91 7867922818", url: "tel:+917867922818", icon: "📱" },
           ].map((item) => (
             <div key={item.label} className="flex gap-2">
               <span>{item.icon}</span>
               <span className="text-cyan min-w-[90px]">{item.label}</span>
-              <span className="text-foreground">{item.value}</span>
+              {item.url ? (
+                <a
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-foreground hover:underline cursor-pointer"
+                  title="Ctrl+Click to open in new tab"
+                  onClick={(e) => { if (!e.ctrlKey && !e.metaKey) e.preventDefault(); }}
+                >
+                  {item.value}
+                </a>
+              ) : (
+                <span className="text-foreground">{item.value}</span>
+              )}
             </div>
           ))}
         </div>
         <p className="text-comment text-sm mt-2 ml-2">
-          ── Type <span className="text-cyan">&apos;goto linkedin&apos;</span>, <span className="text-cyan">&apos;goto github&apos;</span>, or <span className="text-cyan">&apos;goto mail&apos;</span> to visit ──
+          ── Ctrl+Click links to open │ Type <span className="text-cyan">&apos;goto linkedin&apos;</span>, <span className="text-cyan">&apos;goto github&apos;</span>, or <span className="text-cyan">&apos;goto mail&apos;</span> to visit ──
         </p>
       </div>
     ),
@@ -528,9 +559,9 @@ registerCommand({
         {/* System Info */}
         <div className="space-y-1 text-sm">
           <p>
-            <span className="text-primary-bright font-bold">daiyaan</span>
+            <span className="text-primary-bright font-bold">visitor</span>
             <span className="text-foreground">@</span>
-            <span className="text-accent font-bold">portfolio</span>
+            <span className="text-accent font-bold">daiyaan.portfolio</span>
           </p>
           <p className="text-comment">─────────────────</p>
           <p>
@@ -658,7 +689,7 @@ registerCommand({
   description: "Print current user",
   execute: () => ({
     content: (
-      <span className="text-green text-glow-green">daiyaan</span>
+      <span className="text-green text-glow-green">visitor</span>
     ),
   }),
 });
@@ -711,7 +742,7 @@ registerCommand({
   name: "pwd",
   description: "Print working directory",
   execute: () => ({
-    content: <span className="text-foreground">/home/daiyaan/portfolio</span>,
+    content: <span className="text-foreground">/home/visitor/daiyaan.portfolio</span>,
   }),
 });
 

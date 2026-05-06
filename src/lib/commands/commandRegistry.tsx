@@ -25,6 +25,10 @@ export function getAllCommands(): CommandHandler[] {
   return Array.from(commandRegistry.values());
 }
 
+export function getAllCommandNames(): string[] {
+  return Array.from(commandRegistry.keys());
+}
+
 export function executeCommand(input: string): CommandOutput {
   const trimmed = input.trim();
   if (!trimmed) {

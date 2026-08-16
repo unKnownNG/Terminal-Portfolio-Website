@@ -250,29 +250,21 @@ export default function Terminal() {
           ))}
 
           {/* Current Input Line */}
-          <div className="flex items-start">
+          <div className="flex items-baseline">
             <Prompt />
-            <div className="flex-1 relative">
-              <input
-                ref={inputRef}
-                type="text"
-                value={currentInput}
-                onChange={(e) => setCurrentInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                className="w-full bg-transparent border-none outline-none text-foreground caret-transparent font-mono text-xs md:text-sm"
-                spellCheck={false}
-                autoComplete="off"
-                autoCapitalize="off"
-                aria-label="Terminal input"
-              />
-              {/* Custom block cursor */}
-              <span
-                className="absolute top-0 pointer-events-none"
-                style={{ left: `${currentInput.length}ch` }}
-              >
-                <span className="inline-block w-[0.6em] h-[1.2em] bg-primary/80 cursor-blink" />
-              </span>
-            </div>
+            <input
+              ref={inputRef}
+              type="text"
+              value={currentInput}
+              onChange={(e) => setCurrentInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              className="flex-1 bg-transparent border-none outline-none text-foreground font-mono text-xs md:text-sm p-0 m-0"
+              style={{ caretColor: "var(--primary)", lineHeight: "1.5" }}
+              spellCheck={false}
+              autoComplete="off"
+              autoCapitalize="off"
+              aria-label="Terminal input"
+            />
           </div>
         </div>
 

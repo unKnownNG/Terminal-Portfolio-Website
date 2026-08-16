@@ -2,17 +2,17 @@
 
 import { useState } from "react";
 import BootSequence from "@/components/BootSequence";
-import Terminal from "@/components/Terminal";
+import DesktopLayout from "@/components/desktop/DesktopLayout";
 
 export default function Home() {
-  const [phase, setPhase] = useState<"booting" | "terminal">("booting");
+  const [phase, setPhase] = useState<"booting" | "desktop">("booting");
 
   return (
-    <main className="h-screen h-[100dvh] w-screen overflow-hidden">
+    <main style={{ width: "100vw", height: "100dvh", overflow: "hidden" }}>
       {phase === "booting" && (
-        <BootSequence onComplete={() => setPhase("terminal")} />
+        <BootSequence onComplete={() => setPhase("desktop")} />
       )}
-      {phase === "terminal" && <Terminal />}
+      {phase === "desktop" && <DesktopLayout />}
     </main>
   );
 }

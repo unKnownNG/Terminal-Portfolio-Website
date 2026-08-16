@@ -787,4 +787,32 @@ registerCommand({
   }),
 });
 
+// ─── cd ───────────────────────────────────────────────
+registerCommand({
+  name: "cd",
+  description: "Change GUI workspace directory (e.g. cd ~/projects)",
+  usage: "cd <path>",
+  execute: (args) => {
+    if (args.length === 0) {
+      return {
+        content: (
+          <div className="space-y-1 text-xs">
+            <p className="text-yellow font-semibold">Usage:</p>
+            <p className="text-foreground">cd ~/home | cd ~/projects | cd ~/experience | cd ~/opensource | cd ~/skills | cd ~/contact</p>
+          </div>
+        ),
+      };
+    }
+    const path = args[0].toLowerCase();
+    return {
+      content: (
+        <span className="text-green text-xs font-mono">
+          ✓ Navigated to {path}
+        </span>
+      ),
+    };
+  },
+});
+
 export {};
+

@@ -16,6 +16,8 @@ const FEATURED_PROJECTS = [
     stars: 86,
     link: "https://github.com/unKnownNG/Custom-OS",
     color: "#50fa7b",
+    image: "/projects/custom-os.jpg",
+    icon: "🖥️",
   },
   {
     name: "Custom Programming Language",
@@ -24,6 +26,8 @@ const FEATURED_PROJECTS = [
     stars: 42,
     link: "https://github.com/unKnownNG/Custom-Programming-Language",
     color: "#bd93f9",
+    image: "/projects/compiler.jpg",
+    icon: "⚙️",
   },
   {
     name: "CodeNovel — AI Learning Platform",
@@ -32,6 +36,8 @@ const FEATURED_PROJECTS = [
     stars: 31,
     link: "https://github.com/unKnownNG/Code-Novel",
     color: "#ff79c6",
+    image: "/projects/codenovel.jpg",
+    icon: "🤖",
   },
 ];
 
@@ -253,7 +259,7 @@ export default function HomePage() {
           </button>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 260px), 1fr))", gap: 12 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 260px), 1fr))", gap: 14 }}>
           {FEATURED_PROJECTS.map((project, idx) => (
             <motion.a
               key={project.name}
@@ -261,29 +267,92 @@ export default function HomePage() {
               target="_blank"
               rel="noopener noreferrer"
               className="project-card"
-              style={{ textDecoration: "none", display: "block" }}
+              style={{ textDecoration: "none", display: "flex", flexDirection: "column", overflow: "hidden" }}
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 + idx * 0.1 }}
-              whileHover={{ y: -3 }}
+              whileHover={{ y: -4 }}
             >
-              {/* Project color bar as header */}
+              {/* Project preview image with terminal styling */}
               <div style={{
-                height: 80,
-                background: `linear-gradient(135deg, color-mix(in srgb, ${project.color} 20%, var(--surface)) 0%, var(--surface-light) 100%)`,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: 28,
-                borderBottom: `1px solid color-mix(in srgb, ${project.color} 20%, var(--border))`,
+                position: "relative",
+                height: 130,
+                width: "100%",
+                overflow: "hidden",
+                borderBottom: `1px solid color-mix(in srgb, ${project.color} 25%, var(--border))`,
+                background: "var(--surface-light)",
               }}>
-                <span style={{ opacity: 0.8 }}>
-                  {idx === 0 ? "🖥️" : idx === 1 ? "⚙️" : "🤖"}
-                </span>
+                {/* Image */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={project.image}
+                  alt={project.name}
+                  className="project-card-image-el"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    display: "block",
+                    transition: "transform 0.35s ease",
+                  }}
+                />
+
+                {/* Subtle vignette gradient overlay */}
+                <div style={{
+                  position: "absolute",
+                  inset: 0,
+                  background: "linear-gradient(180deg, rgba(0,0,0,0.3) 0%, transparent 45%, color-mix(in srgb, var(--surface) 90%, transparent) 100%)",
+                  pointerEvents: "none",
+                }} />
+
+                {/* Top mini terminal controls & project badge */}
+                <div style={{
+                  position: "absolute",
+                  top: 8,
+                  left: 8,
+                  right: 8,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  pointerEvents: "none",
+                }}>
+                  <div style={{
+                    display: "flex",
+                    gap: 4,
+                    background: "rgba(10, 10, 15, 0.75)",
+                    padding: "3px 6px",
+                    borderRadius: 4,
+                    backdropFilter: "blur(6px)",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                  }}>
+                    <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#ff5555", display: "inline-block" }} />
+                    <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#f1fa8c", display: "inline-block" }} />
+                    <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#50fa7b", display: "inline-block" }} />
+                  </div>
+
+                  <span style={{
+                    fontSize: 9.5,
+                    fontFamily: "'Fira Code', monospace",
+                    padding: "2px 7px",
+                    borderRadius: 4,
+                    background: "rgba(10, 10, 15, 0.8)",
+                    color: project.color,
+                    border: `1px solid color-mix(in srgb, ${project.color} 40%, transparent)`,
+                    backdropFilter: "blur(6px)",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 4,
+                    fontWeight: 600,
+                  }}>
+                    <span>{project.icon}</span>
+                    <span>{project.tech[0]}</span>
+                  </span>
+                </div>
               </div>
-              <div className="project-card-body">
+
+              <div className="project-card-body" style={{ flex: 1, display: "flex", flexDirection: "column" }}>
                 <p className="project-card-title" style={{ color: project.color }}>{project.name}</p>
-                <p className="project-card-desc">{project.desc}</p>
+                <p className="project-card-desc" style={{ flex: 1 }}>{project.desc}</p>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 8 }}>
                   {project.tech.map((t) => (
                     <span key={t} className="tech-tag" style={{ fontSize: 9, padding: "1px 5px" }}>{t}</span>
@@ -291,7 +360,9 @@ export default function HomePage() {
                 </div>
                 <div className="project-card-footer">
                   <span className="project-card-stars">⭐ {project.stars}</span>
-                  <span style={{ fontSize: 10, color: "var(--comment)" }}>🐙 GitHub →</span>
+                  <span style={{ fontSize: 10, color: "var(--cyan)", display: "flex", alignItems: "center", gap: 4 }}>
+                    🐙 GitHub →
+                  </span>
                 </div>
               </div>
             </motion.a>
